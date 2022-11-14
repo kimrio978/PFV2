@@ -3,7 +3,6 @@ from mysql.connector import Error
 import matplotlib.pyplot as plt 
 import numpy as np
 from statistics import mean
-import tkinter as tk
 import locale
 
 def func_lectura(month,day,ts):
