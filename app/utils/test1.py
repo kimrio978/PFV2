@@ -105,6 +105,7 @@ def func_lectura(month,day,ts):
         #Calculo de CO2
         Ic=164.38
         Co2_m2=round(float(Ic*(vf_ac/Mtk)),2)
+        json_data.update({"Co2_m2":Co2_m2})
         # Sacar promedio
         vf_list=tuple(vf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
