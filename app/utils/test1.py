@@ -97,9 +97,11 @@ def func_lectura(month,day,ts):
         #Consumo per capita
         Num_estudiantes=1000
         kWh_p_capita=round(float(vf_ac/Num_estudiantes),2)
+        json_data.update({"kWh_p_capita":kWh_p_capita})
         #Calculo por area
         Mtk=6408
         CalculoMt=round(float(vf_ac/Mtk),2)
+        json_data.update({"CalculoMt":CalculoMt})
         #Calculo de CO2
         Ic=164.38
         Co2_m2=round(float(Ic*(vf_ac/Mtk)),2)
