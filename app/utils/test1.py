@@ -25,8 +25,8 @@ def func_lectura(month,day,ts):
         #Infor to search in database
         
         year=2018#input('Año: ')
-        # month=3#input('mes: ')
-        # day=2#input('Dia: ')
+        # month=3
+        # day=2
         # ts=0
         
         #EXTRACCION DE INFORMACION
