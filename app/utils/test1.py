@@ -195,8 +195,6 @@ def func_lectura(month,day,ts):
             plt.title('Consumo de energia electrica para el año '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
 
-        # # function to show the plot
-        # plt.show()
         plt.savefig("lectura.png")
         # return json_data
 
