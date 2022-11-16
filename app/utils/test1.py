@@ -196,6 +196,7 @@ def func_lectura(month,day,ts):
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
 
         plt.savefig("lectura.png")
+        plt.close
         # return json_data
 
     except Error as ex:
