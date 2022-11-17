@@ -26,11 +26,9 @@ def func_lectura(month,day,ts):
             print("Info del servidor:",infoserver)
         #Creating a cursor object using the cursor() method
         cursor = mydb.cursor()
-        #Infor to search in database
+        
+        #Info to search in database
         year=2018#input('Año: ')
-        # month=3
-        # day=2
-        # ts=0
         
         #EXTRACCION DE INFORMACION
         if ts == 0:
@@ -83,6 +81,7 @@ def func_lectura(month,day,ts):
             v1f=float(v1.replace(",",""))
             v2f=float(v2.replace(",",""))
             vf_moment=v2f-v1f
+            print(vf_moment)
             vf.append(v2f-v1f)
             vf_ac+=int(vf[i]) #Total acumulado de kWh
             #almacenamiento de valor max
@@ -100,15 +99,12 @@ def func_lectura(month,day,ts):
         #Consumo per capita
         Num_estudiantes=1000
         kWh_p_capita=round(float(vf_ac/Num_estudiantes),2)
-        json_data.update({"kWh_p_capita":kWh_p_capita})
         #Calculo por area
         Mtk=6408
         CalculoMt=round(float(vf_ac/Mtk),2)
-        json_data.update({"CalculoMt":CalculoMt})
         #Calculo de CO2
         Ic=164.38
         Co2=round(float((Ic*(vf_ac))/1000),2)
-        json_data.update({"Co2":Co2})
         # Sacar promedio
         vf_list=tuple(vf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
@@ -135,31 +131,35 @@ def func_lectura(month,day,ts):
         json_data.update({'v7':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         print('')
         
+    
+        # Precio del kwh para la medicion
+        prft.setlocale(prft.LC_ALL, '')
+        precio_kWh=850
+        P_total=precio_kWh*vf_ac
+        print("")
+        print('INDICADORES DE COSTOS')
+        print('El kWh se encuentra a $ '+str(precio_kWh)+' COP')
+        json_data.update({'v8':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
+        print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
+        json_data.update({'v9':"El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
+        
         #Porcentaje aumentado con respecto al consumo promedio de las mediciones
         porcentaje_alm=[]
         porcentaje_date=[]
         crit_value=0
+        numero=0
         crit_value_date=0
         for i in range(len(vf)):
             porcentaje=round(float(((vf[i]-Prom_consumo)/Prom_consumo)*100),2) #calculo instantaneo
-            porcentaje_alm.append(round(float(((vf[i]-Prom_consumo)/Prom_consumo)*100),2)) #almacen de valor de porcentaje
-            porcentaje_date.append(arr[i,0:2]) #almacen de la fecha
-            if porcentaje>=20:
+            #porcentaje_alm.append(round(float(((vf[i]-Prom_consumo)/Prom_consumo)*100),2)) #almacen de valor de porcentaje
+            #porcentaje_date.append(arr[i,0:2]) #almacen de la fecha
+            if porcentaje>=30:
                 crit_value=float(vf[i])
-                crit_value_date=(arr[i,0:2])
-                print(f'Medicion atipica {crit_value} kWh, esta {porcentaje} % por encima del promedio ({Prom_consumo} kWh)\n\rLa medicion es del dia {crit_value_date[0]} a las {crit_value_date[1]}')
-            # print(f'La diferencia entre el promedio y cada consumo es de {porcentaje} kWh para el dia {arr[i,0]} a las {arr[i,1]}')
-    
-        # Precio del kwh para la medicion
-        # prft.setlocale(prft.LC_ALL, '')
-        precio_kWh=850#input('Indicar precio del kwh')
-        P_mediciones=precio_kWh*vf
-        P_total=precio_kWh*vf_ac
-        print("")
-        print('INDICADORES DE COSTOS')
-        print('El kWh se encuentra a 850 COP')
-        # print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
-
+                crit_value_date=(arr[i*2,0:2])
+                json_data.update({f'M{numero}':f'{numero}- La medicion es del dia {crit_value_date[0]} a las {crit_value_date[1]} con un valor de {crit_value} kWh, este tiene {porcentaje} % de diferencia con respecto al promedio ({Prom_consumo} kWh)'})
+                if numero==0:
+                    json_data.update({'A':'MEDICIONES ATIPICAS:'})
+                numero+=1
         #IMPRESION DE GRAFICAS
         fig, gf1 =plt.subplots(tight_layout=True)
         gf1.plot(vf)
