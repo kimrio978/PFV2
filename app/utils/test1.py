@@ -6,7 +6,7 @@ from statistics import mean
 import locale as prft
 import os
 
-def func_lectura(month,day,ts):
+def func_lectura(month,day,ts,precio_kWh):
     json_data = {}
     try:
         np.set_printoptions(formatter={'float_kind':'{:.4f}'.format})
@@ -120,7 +120,7 @@ def func_lectura(month,day,ts):
         json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         # Precio del kwh para la medicion
         #prft.setlocale(prft.LC_ALL, '')
-        precio_kWh=850
+        #precio_kWh=850
         P_total=precio_kWh*vf_ac
         json_data.update({'v81':'INDICADORES DE COSTOS'})
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
