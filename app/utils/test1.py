@@ -3,7 +3,7 @@ from mysql.connector import Error
 import matplotlib.pyplot as plt 
 import numpy as np
 from statistics import mean
-import locale
+import locale as prft
 import os
 
 def func_lectura(month,day,ts):
@@ -107,11 +107,12 @@ def func_lectura(month,day,ts):
         json_data.update({"CalculoMt":CalculoMt})
         #Calculo de CO2
         Ic=164.38
-        Co2_m2=round(float(Ic*(vf_ac/Mtk)),2)
-        json_data.update({"Co2_m2":Co2_m2})
+        Co2=round(float((Ic*(vf_ac))/1000),2)
+        json_data.update({"Co2":Co2})
         # Sacar promedio
         vf_list=tuple(vf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
+
         print("\nINDICADORES GENERALES")
         print("Consumo total en el periodo de estudio "+str(vf_ac)+" kWh")
         json_data.update({"v1":"Consumo total en el periodo de estudio "+str(vf_ac)+" kWh"})
@@ -121,15 +122,17 @@ def func_lectura(month,day,ts):
         json_data.update({"v3":"Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})
         print("Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes")
         json_data.update({"v4":"Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})
-        print("Produccion de CO2 en el periodo de estudio es de "+str(Co2_m2)+" CO2/m2")
-        json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2_m2)+" CO2/m2"})
+        print("Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" gramos de CO2")
+        json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})
         print("")
 
         #Consumo maximo
         print('\nIndicadores de Consumo maximo y minimo')
         print(f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh')
+        json_data.update({'v6':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
         #Consumo minimo
         print(f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh')
+        json_data.update({'v7':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         print('')
         
         #Porcentaje aumentado con respecto al consumo promedio de las mediciones
@@ -144,33 +147,27 @@ def func_lectura(month,day,ts):
             if porcentaje>=20:
                 crit_value=float(vf[i])
                 crit_value_date=(arr[i,0:2])
-                print(f'Medicion atipica {crit_value} kWh, esta {porcentaje} % por encima del promedio ({Prom_consumo} kWh)\n\r Es del dia {crit_value_date[0]} a las {crit_value_date[1]}')
+                print(f'Medicion atipica {crit_value} kWh, esta {porcentaje} % por encima del promedio ({Prom_consumo} kWh)\n\rLa medicion es del dia {crit_value_date[0]} a las {crit_value_date[1]}')
             # print(f'La diferencia entre el promedio y cada consumo es de {porcentaje} kWh para el dia {arr[i,0]} a las {arr[i,1]}')
     
         # Precio del kwh para la medicion
-        locale.setlocale(locale.LC_ALL, '')
+        prft.setlocale(prft.LC_ALL, '')
         precio_kWh=850#input('Indicar precio del kwh')
         P_mediciones=precio_kWh*vf
         P_total=precio_kWh*vf_ac
         print("")
         print('INDICADORES DE COSTOS')
         print('El kWh se encuentra a 850 COP')
-        # for i in range(len(P_mediciones)):
-        #     print(f'El precio de la medicion de {float(vf[i])} son: COP {locale.currency(float(P_mediciones[i]))}')
-        #print("El precio total del periodo visualizado es de: "+locale.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
-        #IMPRESIONES
-        # print(Prom_consumo)
-        # print(f"{Co2_m2}")
-        # print(f"Consumo total es: {vf_ac} kWh")
+        print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
 
         #IMPRESION DE GRAFICAS
-        #fig, gf1 =plt.subplots(tight_layout=True)
-        plt.plot(vf)
+        fig, gf1 =plt.subplots(tight_layout=True)
+        gf1.plot(vf)
 
         if ts == 0:
             default_x_ticks = range(len(arr))
             plt.xticks(default_x_ticks, arr[:,1])
-            plt.tick_params(axis='x', rotation=90)
+            gf1.tick_params(axis='x', rotation=90)
             plt.xlabel('Dia')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el dia '+str(day)+ ' del mes '+str(month)+' de '+str(year))
@@ -182,7 +179,7 @@ def func_lectura(month,day,ts):
                     days_of_month.append(arr[i,0])
             default_x_ticks=range(len(days_of_month))
             plt.xticks(default_x_ticks, days_of_month)
-            plt.tick_params(axis='x', rotation=90)
+            gf1.tick_params(axis='x', rotation=90)
             plt.xlabel('Dias del mes')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el mes '+str(month)+' de '+str(year))
@@ -192,7 +189,7 @@ def func_lectura(month,day,ts):
             months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             default_x_ticks=range(len(months_of_year))
             plt.xticks(default_x_ticks, months_of_year)
-            plt.tick_params(axis='x', rotation=70)
+            gf1.tick_params(axis='x', rotation=70)
             plt.xlabel('Meses del Año')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el año '+str(year))
