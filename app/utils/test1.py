@@ -4,11 +4,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 from statistics import mean
 import locale
+import os
 
 def func_lectura(month,day,ts):
     json_data = {}
     try:
         np.set_printoptions(formatter={'float_kind':'{:.4f}'.format})
+        strFile = "lectura.png"
+        if os.path.isfile(strFile):
+            os.remove(strFile)
         mydb= sqlcon.connect(
             host="data-2018.ctuemwnho5fn.us-east-1.rds.amazonaws.com",
             port=3306,
@@ -23,10 +27,9 @@ def func_lectura(month,day,ts):
         #Creating a cursor object using the cursor() method
         cursor = mydb.cursor()
         #Infor to search in database
-        
         year=2018#input('Año: ')
-        # month=3#input('mes: ')
-        # day=2#input('Dia: ')
+        # month=3
+        # day=2
         # ts=0
         
         #EXTRACCION DE INFORMACION
@@ -197,7 +200,7 @@ def func_lectura(month,day,ts):
 
         # # function to show the plot
         # plt.show()
-        plt.savefig("lectura.png")
+        plt.savefig(strFile)
         # return json_data
 
     except Error as ex:
