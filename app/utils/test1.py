@@ -164,13 +164,13 @@ def func_lectura(month,day,ts):
         # print(f"Consumo total es: {vf_ac} kWh")
 
         #IMPRESION DE GRAFICAS
-        fig, gf1 =plt.subplots(tight_layout=True)
-        gf1.plot(vf)
+        #fig, gf1 =plt.subplots(tight_layout=True)
+        plt.plot(vf)
 
         if ts == 0:
             default_x_ticks = range(len(arr))
             plt.xticks(default_x_ticks, arr[:,1])
-            gf1.tick_params(axis='x', rotation=90)
+            plt.tick_params(axis='x', rotation=90)
             plt.xlabel('Dia')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el dia '+str(day)+ ' del mes '+str(month)+' de '+str(year))
@@ -182,7 +182,7 @@ def func_lectura(month,day,ts):
                     days_of_month.append(arr[i,0])
             default_x_ticks=range(len(days_of_month))
             plt.xticks(default_x_ticks, days_of_month)
-            gf1.tick_params(axis='x', rotation=90)
+            plt.tick_params(axis='x', rotation=90)
             plt.xlabel('Dias del mes')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el mes '+str(month)+' de '+str(year))
@@ -192,7 +192,7 @@ def func_lectura(month,day,ts):
             months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             default_x_ticks=range(len(months_of_year))
             plt.xticks(default_x_ticks, months_of_year)
-            gf1.tick_params(axis='x', rotation=70)
+            plt.tick_params(axis='x', rotation=70)
             plt.xlabel('Meses del Año')# naming the x axis
             plt.ylabel('kWh')# naming the y axis
             plt.title('Consumo de energia electrica para el año '+str(year))
@@ -200,7 +200,7 @@ def func_lectura(month,day,ts):
 
         # # function to show the plot
         # plt.show()
-        
+        plt.savefig(strFile)
 
     except Error as ex:
         print("Error durante la conexion",ex)
@@ -212,4 +212,4 @@ def func_lectura(month,day,ts):
                 print("La conexion se ha finalizado")
                 return json_data
 
-    plt.savefig(strFile)
+    

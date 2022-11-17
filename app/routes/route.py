@@ -25,7 +25,8 @@ def lectura_datos():
             
             # llamado a la función
             datos = func_lectura(month,day,ts)
-            
+            import time
+            time.sleep(2) # Sleep for 3 seconds
             # Obtencion base64 img
             with open("lectura.png","rb") as file:
                 img64 = base64.b64encode(file.read())
