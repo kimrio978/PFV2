@@ -126,23 +126,6 @@ def func_lectura(month,day,ts):
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
         json_data.update({'v91':"El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
         
-        #Porcentaje aumentado con respecto al consumo promedio de las mediciones
-        porcentaje_alm=[]
-        porcentaje_date=[]
-        crit_value=0
-        numero=0
-        crit_value_date=0
-        for i in range(len(vf)):
-            porcentaje=round(float(((vf[i]-Prom_consumo)/Prom_consumo)*100),2) #calculo instantaneo
-            #porcentaje_alm.append(round(float(((vf[i]-Prom_consumo)/Prom_consumo)*100),2)) #almacen de valor de porcentaje
-            #porcentaje_date.append(arr[i,0:2]) #almacen de la fecha
-            if porcentaje>=30:
-                crit_value=float(vf[i])
-                crit_value_date=(arr[i*2,0:2])
-                json_data.update({f'M{numero}':f'{numero}- La medicion es del dia {crit_value_date[0]} a las {crit_value_date[1]} con un valor de {crit_value} kWh, este tiene {porcentaje} % de diferencia con respecto al promedio ({Prom_consumo} kWh)'})
-                if numero==0:
-                    json_data.update({'A':'MEDICIONES ATIPICAS:'})
-                numero+=1
         #IMPRESION DE GRAFICAS
         fig, gf1 =plt.subplots(tight_layout=True)
         gf1.plot(vf)
