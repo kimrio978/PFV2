@@ -22,9 +22,10 @@ def lectura_datos():
             print(day)          
             ts = data.get("ts")
             print(ts)
+            precio_kWh=data.get("precio_kWh")
             
             # llamado a la función
-            datos = func_lectura(month,day,ts)
+            datos = func_lectura(month,day,ts,precio_kWh)
             # Obtencion base64 img
             with open("lectura.png","rb") as file:
                 img64 = base64.b64encode(file.read())
