@@ -81,7 +81,6 @@ def func_lectura(month,day,ts):
             v1f=float(v1.replace(",",""))
             v2f=float(v2.replace(",",""))
             vf_moment=v2f-v1f
-            print(vf_moment)
             vf.append(v2f-v1f)
             vf_ac+=int(vf[i]) #Total acumulado de kWh
             #almacenamiento de valor max
@@ -108,40 +107,24 @@ def func_lectura(month,day,ts):
         # Sacar promedio
         vf_list=tuple(vf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
-
-        print("\nINDICADORES GENERALES")
-        print("Consumo total en el periodo de estudio "+str(vf_ac)+" kWh")
+        #Indicadores Generales
+        json_data.update({"v0":"INDICADORES GENERALES"})
         json_data.update({"v1":"Consumo total en el periodo de estudio "+str(vf_ac)+" kWh"})
-        print("Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh")
         json_data.update({"v2":"Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh"})
-        print("Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2")
         json_data.update({"v3":"Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})
-        print("Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes")
         json_data.update({"v4":"Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})
-        print("Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" gramos de CO2")
         json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})
-        print("")
-
-        #Consumo maximo
-        print('\nIndicadores de Consumo maximo y minimo')
-        print(f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh')
-        json_data.update({'v6':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
-        #Consumo minimo
-        print(f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh')
-        json_data.update({'v7':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
-        print('')
-        
-    
+        #Consumo MAXIMO Y MINIMO
+        json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
+        json_data.update({'v7':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
+        json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         # Precio del kwh para la medicion
         prft.setlocale(prft.LC_ALL, '')
         precio_kWh=850
         P_total=precio_kWh*vf_ac
-        print("")
-        print('INDICADORES DE COSTOS')
-        print('El kWh se encuentra a $ '+str(precio_kWh)+' COP')
-        json_data.update({'v8':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
-        print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
-        json_data.update({'v9':"El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
+        json_data.update({'v81':'INDICADORES DE COSTOS'})
+        json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
+        json_data.update({'v91':"El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
         
         #Porcentaje aumentado con respecto al consumo promedio de las mediciones
         porcentaje_alm=[]
