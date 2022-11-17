@@ -200,7 +200,9 @@ def func_lectura(month,day,ts):
 
         # # function to show the plot
         # plt.show()
+        plt.tight_layout()
         plt.savefig(strFile)
+        plt.show()
 
     except Error as ex:
         print("Error durante la conexion",ex)
