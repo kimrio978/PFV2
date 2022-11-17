@@ -151,14 +151,14 @@ def func_lectura(month,day,ts):
             # print(f'La diferencia entre el promedio y cada consumo es de {porcentaje} kWh para el dia {arr[i,0]} a las {arr[i,1]}')
     
         # Precio del kwh para la medicion
-        prft.setlocale(prft.LC_ALL, '')
+        # prft.setlocale(prft.LC_ALL, '')
         precio_kWh=850#input('Indicar precio del kwh')
         P_mediciones=precio_kWh*vf
         P_total=precio_kWh*vf_ac
         print("")
         print('INDICADORES DE COSTOS')
         print('El kWh se encuentra a 850 COP')
-        print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
+        # print("El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
 
         #IMPRESION DE GRAFICAS
         fig, gf1 =plt.subplots(tight_layout=True)
@@ -208,5 +208,3 @@ def func_lectura(month,day,ts):
                 mydb.close()
                 print("La conexion se ha finalizado")
                 return json_data
-
-    
