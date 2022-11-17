@@ -124,7 +124,7 @@ def func_lectura(month,day,ts):
         P_total=precio_kWh*vf_ac
         json_data.update({'v81':'INDICADORES DE COSTOS'})
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
-        json_data.update({'v91':"El precio total del periodo visualizado es de: "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
+        json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
 
         #IMPRESION DE GRAFICAS
         fig, gf1 =plt.subplots(tight_layout=True)
