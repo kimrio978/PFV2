@@ -157,7 +157,7 @@ def func_lectura(month,day,ts):
         print('El kWh se encuentra a 850 COP')
         # for i in range(len(P_mediciones)):
         #     print(f'El precio de la medicion de {float(vf[i])} son: COP {locale.currency(float(P_mediciones[i]))}')
-        print("El precio total del periodo visualizado es de: "+locale.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
+        #print("El precio total del periodo visualizado es de: "+locale.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh")
         #IMPRESIONES
         # print(Prom_consumo)
         # print(f"{Co2_m2}")
