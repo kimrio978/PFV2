@@ -11,8 +11,8 @@ def func_lectura(month,day,ts):
     try:
         np.set_printoptions(formatter={'float_kind':'{:.4f}'.format})
         strFile = "lectura.png"
-        if os.path.isfile(strFile):
-            os.remove(strFile)
+        # if os.path.isfile(strFile):
+        #     os.remove(strFile)
         mydb= sqlcon.connect(
             host="data-2018.ctuemwnho5fn.us-east-1.rds.amazonaws.com",
             port=3306,
