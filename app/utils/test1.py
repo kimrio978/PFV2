@@ -125,7 +125,7 @@ def func_lectura(month,day,ts):
         json_data.update({'v81':'INDICADORES DE COSTOS'})
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
         json_data.update({'v91':"El precio total del periodo visualizado es de: "+prft.currency(float(P_total), grouping=True)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
-        
+
         #IMPRESION DE GRAFICAS
         fig, gf1 =plt.subplots(tight_layout=True)
         gf1.plot(vf)
@@ -162,7 +162,7 @@ def func_lectura(month,day,ts):
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
 
         # # function to show the plot
-        # plt.show()
+        #gf1.show()
         plt.savefig(strFile)
 
     except Error as ex:
