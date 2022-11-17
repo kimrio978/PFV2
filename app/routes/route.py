@@ -23,6 +23,7 @@ def lectura_datos():
             ts = data.get("ts")
             print(ts)
             precio_kWh=data.get("precio_kWh")
+            print(precio_kWh)
             
             # llamado a la función
             datos = func_lectura(month,day,ts,precio_kWh)
