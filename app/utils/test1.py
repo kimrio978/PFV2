@@ -201,6 +201,7 @@ def func_lectura(month,day,ts):
         # # function to show the plot
         # plt.show()
         plt.savefig(strFile)
+        plt.close()
         # return json_data
 
     except Error as ex:
