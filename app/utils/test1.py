@@ -3,16 +3,13 @@ from mysql.connector import Error
 import matplotlib.pyplot as plt 
 import numpy as np
 from statistics import mean
-import locale as prft
-import os
+
 
 def func_lectura(month,day,ts,precio_kWh):
     json_data = {}
     try:
         np.set_printoptions(formatter={'float_kind':'{:.4f}'.format})
         strFile = "lectura.png"
-        # if os.path.isfile(strFile):
-        #     os.remove(strFile)
         mydb= sqlcon.connect(
             host="data-2018.ctuemwnho5fn.us-east-1.rds.amazonaws.com",
             port=3306,
