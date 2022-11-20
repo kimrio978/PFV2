@@ -3,9 +3,24 @@ from mysql.connector import Error
 import matplotlib.pyplot as plt 
 import numpy as np
 from statistics import mean
+def meses(i):
+        switcher={
+            1:'Enero',
+            2:'Febrero',
+            3:'Marzo',
+            4:'Abril',
+            5:'Mayo',
+            6:'Junio',
+            7:'Julio',
+            8:'Agosto',
+            9:'Septiembre',
+            10:'Octubre',
+            11:'Noviembre',
+            12:'Diciembre'
+            }
+        return switcher.get(i,"Invalid day of week")
 
-
-def func_lectura(month,day,ts,precio_kWh):
+def func_lectura(month,day,ts):
     json_data = {}
     try:
         np.set_printoptions(formatter={'float_kind':'{:.4f}'.format})
@@ -26,7 +41,33 @@ def func_lectura(month,day,ts,precio_kWh):
         
         #Info to search in database
         year=2018#input('Año: ')
-        
+        if ts==2:
+            precio_kWh=574.31
+        if ts==1 or ts==0:
+            if month==1:
+                precio_kWh=522.66
+            if month==2:
+                precio_kWh=527.01
+            if month==3:
+                precio_kWh=553.12
+            if month==4:
+                precio_kWh=546.16
+            if month==5:
+                precio_kWh=531.26
+            if month==6:
+                precio_kWh=548.94
+            if month==7:
+                precio_kWh=560.76
+            if month==8:
+                precio_kWh=558.77
+            if month==9:
+                precio_kWh=559.31
+            if month==10:
+                precio_kWh=564.23
+            if month==11:
+                precio_kWh=574.31
+            if month==12:
+                precio_kWh=563.40
         #EXTRACCION DE INFORMACION
         if ts == 0:
             print('Caso diario')
@@ -91,6 +132,7 @@ def func_lectura(month,day,ts,precio_kWh):
                 n+=1
                 n1+=1
         vf=np.vstack(vf)
+        #vf[5,0]*=2
         #CALCULO DE INDICADORES
         #Consumo per capita
         Num_estudiantes=1000
@@ -102,7 +144,9 @@ def func_lectura(month,day,ts,precio_kWh):
         Ic=164.38
         Co2=round(float((Ic*(vf_ac))/1000),2)
         # Sacar promedio
-        vf_list=tuple(vf.reshape(1, -1)[0])#Convertir a tuple
+        pru=len(vf)
+        largovf=vf[int(pru/3.3):int(pru/1.2)]
+        vf_list=tuple(largovf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
         #Indicadores Generales
         json_data.update({"v0":"INDICADORES GENERALES"})
@@ -115,51 +159,102 @@ def func_lectura(month,day,ts,precio_kWh):
         json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
         json_data.update({'v7':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
         json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
-        # Precio del kwh para la medicion
-        #prft.setlocale(prft.LC_ALL, '')
-        #precio_kWh=850
         P_total=precio_kWh*vf_ac
         json_data.update({'v81':'INDICADORES DE COSTOS'})
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})
         json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
-
-        #IMPRESION DE GRAFICAS
+        porcentaje_alm=0
+        porcentaje_date=0
         fig, gf1 =plt.subplots(tight_layout=True)
-        gf1.plot(vf)
-
         if ts == 0:
+            porcentdprot=0.85#0.85
+            porcentuprot=1#1
+            for i in range(pru):
+                if i<=int(round(pru*0.26,0)):
+                    porcentaje=round(float(((vf[i]-Prom_consumo*porcentdprot)/Prom_consumo*porcentdprot)*100),2) #calculo instantaneo
+                    if porcentaje>=10:
+                        porcentaje_alm=(float(vf[i]))
+                        porcentaje_date=((i))
+                        gf1.plot(porcentaje_date,porcentaje_alm, marker="o", markersize=5, markeredgecolor="red", markerfacecolor="red")
+                elif (i>int(pru*0.26)) and (i<int(pru*0.9)):
+                    porcentaje=round(float(((vf[i]-Prom_consumo*porcentuprot)/Prom_consumo*porcentuprot)*100),2) #calculo instantaneo
+                    if porcentaje>=20:
+                        porcentaje_alm=(float(vf[i]))
+                        porcentaje_date=((i))
+                        gf1.plot(porcentaje_date,porcentaje_alm, marker="o", markersize=5, markeredgecolor="red", markerfacecolor="red")
+                elif i>=int(pru*0.9):
+                    porcentaje=round(float(((vf[i]-Prom_consumo*porcentdprot)/Prom_consumo*porcentdprot)*100),2) #calculo instantaneo
+                    if porcentaje>=10:
+                        porcentaje_alm=(float(vf[i]))
+                        porcentaje_date=((i))
+                        gf1.plot(porcentaje_date,porcentaje_alm, marker="o", markersize=5, markeredgecolor="red", markerfacecolor="red")
+        if ts ==  1:
+            porcentdprot=1#0.85
+            porcentuprot=1#1
+            for i in range(pru):
+                porcentaje=round(float(((vf[i]-Prom_consumo*porcentuprot)/Prom_consumo*porcentuprot)*100),2) #calculo instantaneo
+                if porcentaje>=15:
+                    porcentaje_alm=(float(vf[i]))
+                    porcentaje_date=((i))
+                    gf1.plot(porcentaje_date,porcentaje_alm, marker="o", markersize=5, markeredgecolor="red", markerfacecolor="red")
+        if ts == 2:
+            porcentdprot=1#0.85
+            porcentuprot=1#1
+            for i in range(pru):
+                porcentaje=round(float(((vf[i]-Prom_consumo*porcentuprot)/Prom_consumo*porcentuprot)*100),2) #calculo instantaneo
+                if porcentaje>=15:
+                    porcentaje_alm=(float(vf[i]))
+                    porcentaje_date=((i))
+                    gf1.plot(porcentaje_date,porcentaje_alm, marker="o", markersize=5, markeredgecolor="red", markerfacecolor="red")
+        
+        #IMPRESION DE GRAFICAS
+        gf1.plot(vf,'k')
+        porcentd=porcentdprot
+        porcentu=porcentuprot
+        if ts == 0:
+            gf1.plot([0,(int(pru*0.26))],[Prom_consumo*1.10*porcentd, Prom_consumo*1.10*porcentd], 'r--', lw=2,)
+            gf1.plot([(int(pru*0.3)),(int(pru*0.85))],[Prom_consumo*1.20*porcentu, Prom_consumo*1.20*porcentu], 'r--', lw=2,label="Consumo excesivo")
+            gf1.plot([(int(pru*0.9)),len(arr)],[Prom_consumo*1.10*porcentd, Prom_consumo*1.10*porcentd], 'r--', lw=2,)
+            gf1.plot([0,(int(pru*0.26))],[Prom_consumo*porcentd, Prom_consumo*porcentd], 'b--', lw=2,)
+            gf1.plot([(int(pru*0.3)),(int(pru*0.85))],[Prom_consumo*porcentu, Prom_consumo*porcentu], 'b--', lw=2,label="Consumo Promedio")
+            gf1.plot([(int(pru*0.9)),len(arr)],[Prom_consumo*porcentd, Prom_consumo*porcentd], 'b--', lw=2,)
             default_x_ticks = range(len(arr))
             plt.xticks(default_x_ticks, arr[:,1])
-            gf1.tick_params(axis='x', rotation=90)
-            plt.xlabel('Dia')# naming the x axis
-            plt.ylabel('kWh')# naming the y axis
-            plt.title('Consumo de energia electrica para el dia '+str(day)+ ' del mes '+str(month)+' de '+str(year))
+            gf1.tick_params(axis='x', rotation=75)
+            plt.xlabel('Horas del Dia')# naming the x axis
+            plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
+            plt.legend(loc='lower right')
+            monthplot=meses(month)
+            plt.title('Consumo de energia electrica\npara el dia '+str(day)+ ' del mes '+monthplot+' de '+str(year))
             plt.grid(color = 'grey', linestyle = '--', linewidth = 0.5)
         if ts == 1:
+            gf1.plot([0,len(arr)/2],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo excesivo")
+            gf1.plot([0,len(arr)/2],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Consumo promedio")
             days_of_month=[]
             for i in range(int(leng_arr*2)):
                 if i%2!=0:
                     days_of_month.append(arr[i,0])
             default_x_ticks=range(len(days_of_month))
             plt.xticks(default_x_ticks, days_of_month)
-            gf1.tick_params(axis='x', rotation=90)
+            gf1.tick_params(axis='x', rotation=75)
             plt.xlabel('Dias del mes')# naming the x axis
-            plt.ylabel('kWh')# naming the y axis
-            plt.title('Consumo de energia electrica para el mes '+str(month)+' de '+str(year))
+            plt.ylabel('Potencia Consumida [kWh]')# naming the y axis
+            plt.legend(loc='lower right')
+            monthplot=meses(month)
+            plt.title('Consumo de energia electrica\npara el mes '+monthplot+' de '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
-            
         if ts == 2:
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo Excesivo")
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Consumo Promedio")
             months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             default_x_ticks=range(len(months_of_year))
             plt.xticks(default_x_ticks, months_of_year)
             gf1.tick_params(axis='x', rotation=70)
             plt.xlabel('Meses del Año')# naming the x axis
-            plt.ylabel('kWh')# naming the y axis
+            plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
+            plt.legend(loc='lower right')
             plt.title('Consumo de energia electrica para el año '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
-
-        # # function to show the plot
-        #gf1.show()
         plt.savefig(strFile)
 
     except Error as ex:
