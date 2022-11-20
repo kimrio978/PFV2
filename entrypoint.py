@@ -12,7 +12,7 @@ app.register_blueprint(lectura_bp)
 
 if __name__ == "__main__":
     app.run(
-        port=5000,
+        port=443,
         debug=True,
         host="0.0.0.0",
     )
