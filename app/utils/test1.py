@@ -133,11 +133,11 @@ def func_lectura(month,day,ts):
                 n1+=1
         vf=np.vstack(vf)
         pru=len(vf)
-        # for i in range(pru):
-        #     if i%3==0:
-        #         vf[i,0]*=1.5
-        #     if i%4==0:
-        #         vf[i,0]*=0.8
+        for i in range(pru):
+            if i<7:
+                vf[i,0]*=2.1
+        # if i>18:
+        #     vf[i,0]*=3
         #     if i%5==0:
         #         vf[i,0]*=1.8
         #CALCULO DE INDICADORES
