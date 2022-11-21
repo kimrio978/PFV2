@@ -148,35 +148,21 @@ def func_lectura(month,day,ts):
         largovf=vf[int(pru/3.3):int(pru/1.2)]
         vf_list=tuple(largovf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
-        # #Indicadores Generales
-        # json_data.update({"v0":"INDICADORES GENERALES"})
-        # json_data.update({"v1":"Consumo total en el periodo de estudio "+str(vf_ac)+" kWh"})#Consumo total en el periodo de estudio
-        # json_data.update({"v2":"Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
-        # json_data.update({"v3":"Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})#Consumo por area construida en el periodo de estudio
-        # json_data.update({"v4":"Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})#Consumo per capita en el periodo de estudio
-        # json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})#Produccion de CO2 en el periodo de estudio
-        # #Consumo MAXIMO Y MINIMO
-        # json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
-        # json_data.update({'v7':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
-        # json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
-        # P_total=precio_kWh*vf_ac
-        # json_data.update({'v81':'INDICADORES DE COSTOS'})
-        # json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})#El kWh se encuentra a
-        # json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
-        json_data.update({"v0":"Standard Indicators"})
-        json_data.update({"v1":"Total electric energy spend for the study period "+str(vf_ac)+" kWh"})#Consumo total en el periodo de estudio
-        json_data.update({"v2":"Average for the period "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
-        json_data.update({"v3":"Energy consumed by constructed area "+str(CalculoMt)+" kWh/m2"})#Consumo por area construida en el periodo de estudio
-        json_data.update({"v4":"Spent energy per capita "+str(kWh_p_capita)+"kWh/1000 students"})#Consumo per capita en el periodo de estudio
-        json_data.update({"v5":"CO2 emissions in the study period  "+str(Co2)+" kg of CO2"})#Produccion de CO2 en el periodo de estudio
+        #Indicadores Generales
+        json_data.update({"v0":"INDICADORES GENERALES"})
+        json_data.update({"v1":"Consumo total en el periodo de estudio "+str(vf_ac)+" kWh"})#Consumo total en el periodo de estudio
+        json_data.update({"v2":"Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
+        json_data.update({"v3":"Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})#Consumo por area construida en el periodo de estudio
+        json_data.update({"v4":"Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})#Consumo per capita en el periodo de estudio
+        json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})#Produccion de CO2 en el periodo de estudio
         #Consumo MAXIMO Y MINIMO
-        json_data.update({'v6':f'Maximun and minimun indicators'})
-        json_data.update({'v7':f'Maximun value is {max_info[0]} at {max_info[1]} and it was {vf_max} kWh'})
-        json_data.update({'v8':f'Minimun value is {min_info[0]} at {min_info[1]} and it was {vf_min} kWh'})
+        json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
+        json_data.update({'v7':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
+        json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         P_total=precio_kWh*vf_ac
-        json_data.update({'v81':'Cost indicators'})
-        json_data.update({'v9':'kWh price is $ '+str(precio_kWh)+' COP'})#El kWh se encuentra a
-        json_data.update({'v91':"The price for the visualiced period is: $ "+str(P_total)+", with a total of "+str(vf_ac)+" kWh"})
+        json_data.update({'v81':'INDICADORES DE COSTOS'})
+        json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})#El kWh se encuentra a
+        json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
         porcentaje_alm=0
         porcentaje_date=0
         fig, gf1 =plt.subplots(tight_layout=True)
@@ -258,17 +244,16 @@ def func_lectura(month,day,ts):
             plt.title('Consumo de energia electrica\npara el mes '+monthplot+' de '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
         if ts == 2:
-            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Excesive spent")
-            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Average spent")
-            # months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-            months_of_year=['January','February','March','April','May','June','July','August','September','October','November','December']
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo Excesivo")
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Consumo Promedio")
+            months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             default_x_ticks=range(len(months_of_year))
             plt.xticks(default_x_ticks, months_of_year)
             gf1.tick_params(axis='x', rotation=70)
-            plt.xlabel('Months of the Year')# naming the x axis
-            plt.ylabel('Power \nspent [kWh]')# naming the y axis
+            plt.xlabel('Meses del Año')# naming the x axis
+            plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
             plt.legend(loc='lower right')
-            plt.title('Electric Energy spent through '+str(year))
+            plt.title('Consumo de energia electrica para el año '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
         plt.savefig(strFile)
 
