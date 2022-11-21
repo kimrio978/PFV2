@@ -165,7 +165,7 @@ def func_lectura(month,day,ts):
         # json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
         json_data.update({"v0":"Standard Indicators"})
         json_data.update({"v1":"Total electric energy spend for the study period "+str(vf_ac)+" kWh"})#Consumo total en el periodo de estudio
-        json_data.update({"v2":"Promedy for the period "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
+        json_data.update({"v2":"Average for the period "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
         json_data.update({"v3":"Energy consumed by constructed area "+str(CalculoMt)+" kWh/m2"})#Consumo por area construida en el periodo de estudio
         json_data.update({"v4":"Spent energy per capita "+str(kWh_p_capita)+"kWh/1000 students"})#Consumo per capita en el periodo de estudio
         json_data.update({"v5":"CO2 emissions in the study period  "+str(Co2)+" kg of CO2"})#Produccion de CO2 en el periodo de estudio
@@ -258,15 +258,15 @@ def func_lectura(month,day,ts):
             plt.title('Consumo de energia electrica\npara el mes '+monthplot+' de '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
         if ts == 2:
-            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo Excesivo")
-            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Consumo Promedio")
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Excesive spent")
+            gf1.plot([0,(len(arr)/2)-1],[Prom_consumo, Prom_consumo], 'b--', lw=2,label="Average spent")
             # months_of_year=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             months_of_year=['January','February','March','April','May','June','July','August','September','October','November','December']
             default_x_ticks=range(len(months_of_year))
             plt.xticks(default_x_ticks, months_of_year)
             gf1.tick_params(axis='x', rotation=70)
             plt.xlabel('Months of the Year')# naming the x axis
-            plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
+            plt.ylabel('Power \nspent [kWh]')# naming the y axis
             plt.legend(loc='lower right')
             plt.title('Electric Energy spent through '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
