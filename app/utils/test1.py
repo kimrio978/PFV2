@@ -120,6 +120,8 @@ def func_lectura(month,day,ts):
             v2f=float(v2.replace(",",""))
             vf_moment=v2f-v1f
             vf.append(v2f-v1f)
+            if i<7:
+                vf[i,0]*=2.1
             vf_ac+=int(vf[i]) #Total acumulado de kWh
             #almacenamiento de valor max
             if vf_moment>=vf_max:
@@ -133,9 +135,6 @@ def func_lectura(month,day,ts):
                 n1+=1
         vf=np.vstack(vf)
         pru=len(vf)
-        for i in range(pru):
-            if i<7:
-                vf[i,0]*=2.1
         # if i>18:
         #     vf[i,0]*=3
         #     if i%5==0:
