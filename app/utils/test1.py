@@ -132,7 +132,14 @@ def func_lectura(month,day,ts):
                 n+=1
                 n1+=1
         vf=np.vstack(vf)
-        #vf[5,0]*=2
+        pru=len(vf)
+        # for i in range(pru):
+        #     if i%3==0:
+        #         vf[i,0]*=1.5
+        #     if i%4==0:
+        #         vf[i,0]*=0.8
+        #     if i%5==0:
+        #         vf[i,0]*=1.8
         #CALCULO DE INDICADORES
         #Consumo per capita
         Num_estudiantes=1000
@@ -144,7 +151,6 @@ def func_lectura(month,day,ts):
         Ic=164.38
         Co2=round(float((Ic*(vf_ac))/1000),2)
         # Sacar promedio
-        pru=len(vf)
         largovf=vf[int(pru/3.3):int(pru/1.2)]
         vf_list=tuple(largovf.reshape(1, -1)[0])#Convertir a tuple
         Prom_consumo=round(float(mean(vf_list)),2)# sacar promedio
@@ -167,7 +173,7 @@ def func_lectura(month,day,ts):
         porcentaje_date=0
         fig, gf1 =plt.subplots(tight_layout=True)
         if ts == 0:
-            porcentdprot=0.85#0.85
+            porcentdprot=0.6#0.85
             porcentuprot=1#1
             for i in range(pru):
                 if i<=int(round(pru*0.26,0)):
