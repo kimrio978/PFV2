@@ -160,9 +160,9 @@ def func_lectura(month,day,ts):
         json_data.update({"v2":"Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
         json_data.update({"v3":"Consumo por área construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})#Consumo por área construida en el periodo de estudio
         json_data.update({"v4":"Consumo per cápita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})#Consumo per capita en el periodo de estudio
-        json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})#Produccion de CO2 en el periodo de estudio
+        json_data.update({"v5":"Producción de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})#Produccion de CO2 en el periodo de estudio
         #Consumo MAXIMO Y MINIMO
-        json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
+        json_data.update({'v6':f'INDICADORES DE CONSUMO MÁXIMO Y MÍNIMO'})
         json_data.update({'v7':f'El máximo consumo se registró el día {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
         json_data.update({'v8':f'El mínimo consumo se registró el día {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         P_total=precio_kWh*vf_ac
@@ -232,7 +232,7 @@ def func_lectura(month,day,ts):
             plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
             plt.legend(loc='lower right')
             monthplot=meses(month)
-            plt.title('Consumo de energia electrica\npara el dia '+str(day)+ ' del mes '+monthplot+' de '+str(year))
+            plt.title('Consumo de energía eléctrica\npara el dia '+str(day)+ ' del mes '+monthplot+' de '+str(year))
             plt.grid(color = 'grey', linestyle = '--', linewidth = 0.5)
         if ts == 1:
             gf1.plot([0,len(arr)/2],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo excesivo")
@@ -244,11 +244,11 @@ def func_lectura(month,day,ts):
             default_x_ticks=range(len(days_of_month))
             plt.xticks(default_x_ticks, days_of_month)
             gf1.tick_params(axis='x', rotation=75)
-            plt.xlabel('Dias del mes')# naming the x axis
+            plt.xlabel('Días del mes')# naming the x axis
             plt.ylabel('Potencia Consumida [kWh]')# naming the y axis
             plt.legend(loc='lower right')
             monthplot=meses(month)
-            plt.title('Consumo de energia electrica\npara el mes '+monthplot+' de '+str(year))
+            plt.title('Consumo de energía eléctrica\npara el mes '+monthplot+' de '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
         if ts == 2:
             gf1.plot([0,(len(arr)/2)-1],[Prom_consumo*1.15, Prom_consumo*1.15], 'r--', lw=2,label="Consumo Excesivo")
@@ -260,7 +260,7 @@ def func_lectura(month,day,ts):
             plt.xlabel('Meses del Año')# naming the x axis
             plt.ylabel('Potencia \nConsumida [kWh]')# naming the y axis
             plt.legend(loc='lower right')
-            plt.title('Consumo de energia electrica para el año '+str(year))
+            plt.title('Consumo de energía eléctrica para el año '+str(year))
             plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
         plt.savefig(strFile)
 
