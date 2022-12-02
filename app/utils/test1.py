@@ -158,17 +158,18 @@ def func_lectura(month,day,ts):
         json_data.update({"v0":"INDICADORES GENERALES"})
         json_data.update({"v1":"Consumo total en el periodo de estudio "+str(vf_ac)+" kWh"})#Consumo total en el periodo de estudio
         json_data.update({"v2":"Consumo promedio del periodo de estudio "+str(Prom_consumo)+" kWh"})#Consumo promedio del periodo de estudio
-        json_data.update({"v3":"Consumo por area construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})#Consumo por area construida en el periodo de estudio
-        json_data.update({"v4":"Consumo per capita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})#Consumo per capita en el periodo de estudio
+        json_data.update({"v3":"Consumo por área construida en el periodo de estudio "+str(CalculoMt)+" kWh/m2"})#Consumo por área construida en el periodo de estudio
+        json_data.update({"v4":"Consumo per cápita en el periodo de estudio "+str(kWh_p_capita)+"kWh/1000 estudiantes"})#Consumo per capita en el periodo de estudio
         json_data.update({"v5":"Produccion de CO2 en el periodo de estudio es de "+str(Co2)+" kg de CO2"})#Produccion de CO2 en el periodo de estudio
         #Consumo MAXIMO Y MINIMO
         json_data.update({'v6':f'INDICADORES DE CONSUMO MAXIMO Y MINIMO'})
-        json_data.update({'v7':f'El maximo consumo se registro el dia {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
-        json_data.update({'v8':f'El minimo consumo se registro el dia {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
+        json_data.update({'v7':f'El máximo consumo se registró el día {max_info[0]} a las {max_info[1]} y fue de {vf_max} kWh'})
+        json_data.update({'v8':f'El mínimo consumo se registró el día {min_info[0]} a las {min_info[1]} y fue de {vf_min} kWh'})
         P_total=precio_kWh*vf_ac
         json_data.update({'v81':'INDICADORES DE COSTOS'})
         json_data.update({'v9':'El kWh se encuentra a $ '+str(precio_kWh)+' COP'})#El kWh se encuentra a
         json_data.update({'v91':"El precio total del periodo visualizado es de: $ "+str(P_total)+", este periodo muestra un total de "+str(vf_ac)+" kWh"})
+
         porcentaje_alm=0
         porcentaje_date=0
         fig, gf1 =plt.subplots(tight_layout=True)
